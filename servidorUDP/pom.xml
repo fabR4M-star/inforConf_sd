@@ -44,7 +44,7 @@
       <configuration>
         <archive>
           <manifest>
-            <mainClass>py.una.electrohogar.servidor.VentasTCPServer</mainClass>
+            <mainClass>py.una.electrohogar.servidor.InfoUDPServer</mainClass>
           </manifest>
         </archive>
         <descriptorRefs>

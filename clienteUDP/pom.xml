@@ -44,7 +44,7 @@
       <configuration>
         <archive>
           <manifest>
-            <mainClass>py.una.electrohogar.cliente.VentasTCPClient</mainClass>
+            <mainClass>py.una.electrohogar.cliente.InfoUDPClient</mainClass>
           </manifest>
         </archive>
         <descriptorRefs>
