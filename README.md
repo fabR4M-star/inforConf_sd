@@ -1,5 +1,5 @@
 # Laboratorio de sockets - Sistemas distribuidos
-## Electro Hogar
+## InforConf
 ### Requisitos
 - Maven
 - JDK8
