@@ -13,7 +13,7 @@ public class PersonaDAO {
 
     public List<Persona> seleccionar() {
     String sql = "SELECT id, numero_documento, nombre_completo, tipo_persona, "
-        + "estado, score, categoria_riesgo FROM persona";
+        + "estado, score FROM persona";
         List<Persona> lista = new ArrayList<Persona>();
 
         try (Connection conn = Bd.connect();
@@ -30,7 +30,7 @@ public class PersonaDAO {
 
     public List<Persona> seleccionarPorId(Integer id) {
         String sql = "SELECT id, numero_documento, nombre_completo, tipo_persona, "
-                + "estado, score, categoria_riesgo FROM persona WHERE id = ?";
+            + "estado, score FROM persona WHERE id = ?";
         List<Persona> lista = new ArrayList<Persona>();
 
         try (Connection conn = Bd.connect();
@@ -49,7 +49,7 @@ public class PersonaDAO {
 
     public List<Persona> seleccionarPorNumeroDocumento(String numeroDocumento) {
         String sql = "SELECT id, numero_documento, nombre_completo, tipo_persona, "
-                + "estado, score, categoria_riesgo FROM persona WHERE numero_documento = ?";
+            + "estado, score FROM persona WHERE numero_documento = ?";
         List<Persona> lista = new ArrayList<Persona>();
 
         try (Connection conn = Bd.connect();
@@ -68,8 +68,8 @@ public class PersonaDAO {
 
     public long insertar(Persona persona) throws SQLException {
         String sql = "INSERT INTO persona "
-                + "(numero_documento, nombre_completo, tipo_persona, estado, score, categoria_riesgo) "
-                + "VALUES (?, ?, ?, ?, ?, ?)";
+            + "(numero_documento, nombre_completo, tipo_persona, estado, score) "
+            + "VALUES (?, ?, ?, ?, ?)";
 
         try (Connection conn = Bd.connect();
                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -80,12 +80,12 @@ public class PersonaDAO {
 
     public long actualizar(Persona persona) throws SQLException {
         String sql = "UPDATE persona SET numero_documento = ?, nombre_completo = ?, "
-                + "tipo_persona = ?, estado = ?, score = ?, categoria_riesgo = ? WHERE id = ?";
+            + "tipo_persona = ?, estado = ?, score = ? WHERE id = ?";
 
         try (Connection conn = Bd.connect();
                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
             cargarParametros(pstmt, persona);
-            pstmt.setInt(7, persona.getId());
+            pstmt.setInt(6, persona.getId());
             return pstmt.executeUpdate();
         }
     }
@@ -108,7 +108,6 @@ public class PersonaDAO {
         persona.setTipoPersona(rs.getString("tipo_persona"));
         persona.setEstado(rs.getString("estado"));
         persona.setScore(rs.getInt("score"));
-        persona.setCategoriaRiesgo(rs.getString("categoria_riesgo"));
         return persona;
     }
 
@@ -119,6 +118,5 @@ public class PersonaDAO {
         pstmt.setString(3, persona.getTipoPersona());
         pstmt.setString(4, persona.getEstado());
         pstmt.setInt(5, persona.getScore());
-        pstmt.setString(6, persona.getCategoriaRiesgo());
     }
 }

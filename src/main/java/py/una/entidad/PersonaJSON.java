@@ -17,7 +17,6 @@ public class PersonaJSON {
     	p.setTipoPersona("JURIDICA");
     	p.setEstado("ACTIVO");
     	p.setScore(850);
-    	p.setCategoriaRiesgo("BAJO");
     	
     	String r1 = PersonaJSON.objetoString(p);
     	System.out.println(r1);
@@ -25,7 +24,7 @@ public class PersonaJSON {
     	
     	System.out.println("\n*************************************************************************");
     	System.out.println("\nEjemplo de uso 2: pasar de string a objeto");
-     	String un_string = "{\"numeroDocumento\":\"4567890\",\"nombreCompleto\":\"Maria Gonzalez\",\"tipoPersona\":\"FISICA\",\"estado\":\"ACTIVO\",\"score\":620,\"categoriaRiesgo\":\"MEDIO\"}";
+        String un_string = "{\"numeroDocumento\":\"4567890\",\"nombreCompleto\":\"Maria Gonzalez\",\"tipoPersona\":\"FISICA\",\"estado\":\"ACTIVO\",\"score\":620}";
     	
     	Persona r2 = PersonaJSON.stringObjeto(un_string);
     	System.out.println(r2.getNumeroDocumento() + " " + r2.getNombreCompleto() + " " + r2.getScore());
@@ -51,7 +50,6 @@ public class PersonaJSON {
         obj.put("tipoPersona", p.getTipoPersona());
         obj.put("estado", p.getEstado());
         obj.put("score", p.getScore());
-        obj.put("categoriaRiesgo", p.getCategoriaRiesgo());
         return obj;
     }
     
@@ -71,7 +69,6 @@ public class PersonaJSON {
         p.setTipoPersona((String) jsonObject.get("tipoPersona"));
         p.setEstado((String) jsonObject.get("estado"));
         p.setScore(((Long) jsonObject.get("score")).intValue());
-        p.setCategoriaRiesgo((String) jsonObject.get("categoriaRiesgo"));
         return p;
 	}
 

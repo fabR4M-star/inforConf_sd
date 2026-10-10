@@ -5,13 +5,11 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 
 import py.una.bd.PersonaDAO;
 import py.una.entidad.Persona;
-import py.una.entidad.PersonaJSON;
 
-public class VentasUDPServer {
+public class InforUDPServer {
 	
 	
     public static void main(String[] a){
@@ -55,27 +53,38 @@ public class VentasUDPServer {
 
                 System.out.println("De : " + IPAddress + ":" + port);
                 String respuesta;
-                if ("GET /api/score".equals(datoRecibido)) {
-                    respuesta = PersonaJSON.listaObjetoString(pdao.seleccionar());
-                } else if (datoRecibido.startsWith("GET /api/score {")) {
+                String[] partesSolicitud = datoRecibido.split("\\s+");
+                if (partesSolicitud.length == 2 && "VerificarIdentidad".equals(partesSolicitud[0])) {
+                    String documento = partesSolicitud[1];
+                    List<Persona> personas = pdao.seleccionarPorNumeroDocumento(documento);
+                    if (personas.isEmpty()) {
+                        respuesta = "No existe una persona con ese documento";
+                    } else {
+                        Persona persona = personas.get(0);
+                        JSONObject resultado = new JSONObject();
+                        resultado.put("nombre", persona.getNombreCompleto());
+                        resultado.put("tipo_persona", persona.getTipoPersona());
+                        resultado.put("estado", persona.getEstado());
+                        respuesta = resultado.toJSONString();
+                    }
+                } else if (partesSolicitud.length == 2 && "ConsultarScore".equals(partesSolicitud[0])) {
                     try {
-                        datoRecibido = datoRecibido.substring("GET /api/score ".length()).trim();
-                        JSONObject solicitud = (JSONObject) new JSONParser().parse(datoRecibido);
-                        Object valorNumeroDocumento = solicitud.get("numeroDocumento");
-
-                        if (!(valorNumeroDocumento instanceof String)
-                                || ((String) valorNumeroDocumento).trim().isEmpty()) {
+                        String idPersona = partesSolicitud[1];
+                        if (idPersona == null || idPersona.trim().isEmpty()) {
                             respuesta = "Petición mal formulada";
                         } else {
-                            List<Persona> personas = pdao.seleccionarPorNumeroDocumento(
-                                    ((String) valorNumeroDocumento).trim());
+                            List<Persona> personas = pdao.seleccionarPorNumeroDocumento(idPersona);
                             if (personas.isEmpty()) {
-                                respuesta = "El numero de documento no corresponde a algun cliente de InforConf";
+                                respuesta = "No existe una persona con ese id";
                             } else {
-                                respuesta = PersonaJSON.objetoString(personas.get(0));
+                                Persona persona = personas.get(0);
+                                JSONObject resultado = new JSONObject();
+                                resultado.put("nombre", persona.getNombreCompleto());
+                                resultado.put("score", persona.getScore());
+                                respuesta = resultado.toJSONString();
                             }
                         }
-                    } catch (Exception ex) {
+                    } catch (NumberFormatException ex) {
                         respuesta = "Petición mal formulada";
                     }
                 } else {

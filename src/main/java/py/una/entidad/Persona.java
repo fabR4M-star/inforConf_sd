@@ -8,20 +8,18 @@ public class Persona{
 	String tipoPersona;
 	String estado;
 	Integer score;
-	String categoriaRiesgo;
 	
 	public Persona(){
 	}
 
 	public Persona(Integer pid, String pnumeroDocumento, String pnombreCompleto,
-			String ptipoPersona, String pestado, Integer pscore, String pcategoriaRiesgo){
+			String ptipoPersona, String pestado, Integer pscore){
 		this.id = pid;
 		this.numeroDocumento = pnumeroDocumento;
 		this.nombreCompleto = pnombreCompleto;
 		this.tipoPersona = ptipoPersona;
 		this.estado = pestado;
 		this.score = pscore;
-		this.categoriaRiesgo = pcategoriaRiesgo;
 	}
 	
 	public Integer getId() {
@@ -72,11 +70,4 @@ public class Persona{
 		this.score = score;
 	}
 
-	public String getCategoriaRiesgo() {
-		return categoriaRiesgo;
-	}
-
-	public void setCategoriaRiesgo(String categoriaRiesgo) {
-		this.categoriaRiesgo = categoriaRiesgo;
-	}
 }
